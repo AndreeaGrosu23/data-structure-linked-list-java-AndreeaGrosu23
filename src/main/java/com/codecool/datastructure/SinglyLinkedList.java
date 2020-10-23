@@ -2,12 +2,12 @@ package com.codecool.datastructure;
 
 public class SinglyLinkedList {
 
-    private class Link {
+    private class Node {
 
         private int value;
-        private Link next;
+        private Node next;
 
-        Link(int value) {
+        Node(int value) {
             this.value = value;
         }
 
@@ -15,16 +15,17 @@ public class SinglyLinkedList {
             return value;
         }
 
-        Link getNext() {
+        Node getNext() {
             return next;
         }
 
-        void setNext(Link next) {
+        void setNext(Node next) {
             this.next = next;
         }
+
     }
 
-    private Link head;
+    private Node head;
     private int size = 0;
 
     public SinglyLinkedList() {
@@ -32,50 +33,48 @@ public class SinglyLinkedList {
 
     // Returns the number at 'index'.
     public int access(int index) {
-        Link tempLink = head;
+        Node tempNode = head;
         int currentIndex = 0;
         while (currentIndex!=index) {
-            tempLink = tempLink.next;
+            tempNode = tempNode.getNext();
             currentIndex++;
         }
-        return tempLink.getValue();
+        return tempNode.getValue();
     }
 
     // Returns the index of 'number' if it's in the array, otherwise -1;
     public int search(int number) {
-        Link tempLink = head;
+        Node tempNode = head;
         int currentIndex = 0;
-        while(tempLink.getValue()!=number&&currentIndex<size) {
-            tempLink = tempLink.getNext();
+        while(tempNode.getValue()!=number&&currentIndex<size) {
+            tempNode = tempNode.getNext();
             currentIndex++;
         }
         return currentIndex<size ? currentIndex : -1;
     }
 
     // Inserts 'number' at 'index' into the array shifting elements if necessary.
-    //
     // e.g. the result of inserting 42 at index 3 into [0, 1, 2, 3, 4] is [0, 1, 2, 42, 3, 4]
     public void insert(int index, int number) {
-        Link tempLink = head;
+        Node tempNode = head;
         if (index == 0) {
-            this.head = new Link(number);
-            head.setNext(tempLink);
+            this.head = new Node(number);
+            head.setNext(tempNode);
         } else {
             int currentIndex=0;
             while (currentIndex+1 != index) {
-                tempLink = tempLink.getNext();
+                tempNode = tempNode.getNext();
                 currentIndex++;
 
             }
-            Link newLink = new Link(number);
-            newLink.setNext(tempLink.getNext());
-            tempLink.setNext(newLink);
+            Node newLink = new Node(number);
+            newLink.setNext(tempNode.getNext());
+            tempNode.setNext(newLink);
         }
         size++;
     }
 
     // Deletes the element at 'index' from the array.
-    //
     //  e.g. the result of deleting index 2 from [0, 1, 2, 3, 4] is [0, 1, 3, 4]
     public void delete(int index) {
         if (index == 0) {
@@ -86,7 +85,7 @@ public class SinglyLinkedList {
             }
             return;
         }
-        Link elementBeforeIndex = head;
+        Node elementBeforeIndex = head;
         while (index - 1 > 0) {
             elementBeforeIndex = elementBeforeIndex.getNext();
             index--;
@@ -94,7 +93,7 @@ public class SinglyLinkedList {
                 throw new IndexOutOfBoundsException();
             }
         }
-        Link elementAtIndex = elementBeforeIndex.getNext();
+        Node elementAtIndex = elementBeforeIndex.getNext();
         if (elementAtIndex == null) {
             throw new IndexOutOfBoundsException();
         }
